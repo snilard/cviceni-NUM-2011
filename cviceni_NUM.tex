@@ -1,0 +1,148 @@
+%!TEX root = cvičení NUM - kindle.tex
+%
+%  Cvičení z NUM
+%
+%  Created by Matěj Novotný on 2011-02-24.
+%  Copyright (c) 2011 Matěj Novotný. All rights reserved.
+%
+
+%\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+
+\usepackage{ifthen}
+
+%\newboolean{kindle}
+
+% kindle verze = true, A4 verze = false
+%\setboolean{kindle}{false} 
+
+\newcommand{\kindle}[2]{\ifthenelse{\boolean{kindle}}{#1}{#2}}
+
+\kindle{\usepackage[top = 1.5cm, bottom=2cm, left=0.8cm, right=0.8cm, a5paper]{geometry}}
+{
+\usepackage[a4paper]{geometry}
+\usepackage{fullpage}
+}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{ifpdf}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+	pdftitle={Zapisky z cviceni NUM 2011},
+	pdfauthor={Matej Novotny},
+	pdfkeywords={FJFI, numericka matematika}
+}
+
+% matematika a symboly
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{latexsym}
+
+\newtheorem{definition}{Definice}
+\newtheorem{theorem}{Věta}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Příklad}
+\newtheorem{note}{Poznámka}
+
+\newcommand{\inte}[2]{\int\limits_0^1 #1\,\mathrm{d}#2}
+\newcommand{\R}{\mathbb{R}}
+
+\title{Zápisky z cvičení NUM 2011}
+\author{Matěj Novotný}
+\date{\today}
+
+\begin{document}
+
+	
+	\maketitle
+	\section{Diferenční vztahy pro náhrady derivací}
+	
+	\kindle{
+		\thispagestyle{empty}
+		\pagestyle{empty}
+	}{}
+	
+	\begin{note}[Taylorův rozvoj]
+		Nechť $g \in C^{(n)}$ na $\langle a,b \rangle;\ x\in (a,b);\ 0<h<min\{x-a,b-x\}$. Pak je
+		\begin{equation} \label{diference}
+			g(x+h)=\sum_{k=0}^{m-1} \frac{1}{k!} g^{(k)}(x) h^k +
+			\inte{\frac{1}{m!} s^{m-1} g^{(m)} (x+(1-s)h)}{s}
+		\end{equation}
+		Druhý sčítanec je Lagrangeův tvar zbytku.
+	\end{note}
+	
+	\begin{definition}[Landaův symbol $O$]
+		Nechť $f:H_0 \rightarrow \R$ je funkce definovaná na prstencovém okolí 0 ($H_0$).
+		Řekneme, že $f$ se chová na $H_0$ jako $h^\alpha$ pro nějaké $\alpha \in \R$
+		(značíme $f(x) = O(h^\alpha)$) právě když
+		\begin{equation} \label{landau}
+			(\exists K > 0)(\forall h \in H_0 - \{0\}) 
+			\left( \left| \frac{f(h)}{h^\alpha}\right|  <K \right)	
+		\end{equation}
+		
+	\end{definition}
+	
+	\begin{note}
+		Chyba aproximace závisí na h.
+	\end{note}
+	
+	\begin{theorem}
+		Nechť $g \in C^{(2)}$ na $\langle a,b \rangle;\ x \in (a,b);\ 0 < h < \min\{x-a, b-x\}$. Pak
+		$$ \frac{g(x+h) -g(x)}{h} = g'(x) + O(h)\quad \text{(dopředná diference)}$$
+		$$ \frac{g(x) - g(x-h)}{h} = g'(x) + O(h)\quad \text{(zpětná diference)}$$
+	\end{theorem}
+	
+	\begin{proof}
+		V Taylorově rozvoji \eqref{diference} použijeme $m=2$.
+		$$ g(x+h) = g(x) h^0 + g'(x)h + h^2 \inte{\frac{1}{2!} s^1 g^{(2)}(x+(1-s)h)}{s}$$
+		$$ \frac{g(x+h) - g(x)}{h} = g'(x) + h\inte{\frac{1}{2} s g^{(2)}(x+(1-s)h)}{s}$$
+		Je poslední člen roven $O(h)$? $g \in C^{(2)}(\langle a, b\rangle) \implies g^{(2)}
+		\in C(\langle a, b\rangle)$, tj. $g^{(2)}$ je spojitá na $\langle a, b\rangle \implies
+		g^{(2)}$ je omezená na $\langle a, b\rangle \implies g^{(2)}(x) < K$ na
+		$\langle a, b\rangle$.
+		$$ \frac{1}{2} \inte{s g^{(2)}(x+(1-s)h)}{s} \leq \frac{1}{2}\inte{sK}{s} = 
+		\frac{K}{2}\inte{s}{s} = \frac{K}{4}$$
+		$$ \left| \frac{g(x+h) - g(x)}{h} - g'(x) \right|= h \left|\inte{\frac{1}{2} s g^{(2)}
+		(x + (1 -s) h)}{s}\right| \leq h\frac{K}{4}$$
+		$$ \frac{\left| \frac{g(x+h) - g(x)}{h} - g'(x) \right|}{|h|} \leq \frac{K}{4} \implies
+		\frac{g(x+h) - g(x)}{h} - g'(x) = O(h)$$
+		Druhý vzorec se dokáže úplně stejně až na znaménko $-$.
+	\end{proof}
+	
+	\begin{theorem}
+		Nechť $g \in C^{(3)} (\langle a,b \rangle);\ x \in (a,b);\ 0 < h < \min\{ x-a, b-x\}$.
+		Pak
+		$$ \frac{g(x+h) - g(x-h)}{2h} = g'(x) + O(h^2)$$
+	\end{theorem}
+	
+	\begin{proof}
+		$$ g(x \pm h) = g(x) \pm h g'(x) + h^2 \inte{\frac{1}{2} s g^{(2)}
+		(x \pm (1-s) h)}{s}$$
+		$$ g(x+h) - g(x-h) = g(x) + hg'(x) + \frac{h^2}{2} \inte{s g^{(2)} (x + (1-s) h)}{s} -$$
+		$$ - ( g(x) - hg'(x) + \frac{h^2}{2} \inte{s g^{(2)} (x - (1-s) h)}{s}) =$$
+		\begin{equation} \label{dk1}
+			 = 2hg'(x) + \frac{h^2}{2} \inte{s \left[ g^{(2)} (x + (s-1)h) - g^{(2)}
+			(x - (1-s)h) \right]}{s}
+		\end{equation}
+		$$ \left| \frac{g(x+h) - g(x-h)}{2h} - g'(x)\right| = \frac{h}{4} \left|
+		\inte{\dots}{s}\right| \leq h \frac{K}{4} $$
+		To znamená, že zbytek je $O(h)$. Použijeme Lagrangeovu větu o přírůstku funkce
+		($\exists \xi:g(a) - g(b) = g'(\xi)(a -b)$):
+		$$ \exists \xi= \xi(s,x,h);\ \xi \in (x- (1-s)h, s+(1-s)h) \subset \langle a,b \rangle$$
+		$$ g^{(2)} (x+(1-s)h) - g^{(2)} (x-(1-s)h) = g^{(3)} (\xi) (x+(1-s)h - x +(1-s)h) =$$
+		$$ = g^{(3)}(\xi) 2 (1-s) h$$
+		Dosadíme do integrálu \eqref{dk1}:
+		$$ \inte{s g^{(3)} (\xi) 2 (1-s)h}{s} = 2h \inte{g^{(3)} (\xi) s (1-s)}{s} $$
+		$g^{(3)}$ je spojitá $\implies$ je omezená na $\langle a,b \rangle$
+		$$ 2h \left| \inte{g^{(3)}(\xi) s(s-s)}{s} \right| \leq 2hK \left| \inte{s(s-s)}{s} \right|
+		\leq Kh$$
+		Po dosazení do \eqref{landau} dostávám tvrzení věty.
+	\end{proof}
+	
+	\begin{note}
+		Vynechávám domácí úkol a nějaké povídání k němu. \href{http://geraldine.fjfi.cvut.cz/~oberhuber/data/vyuka/num/dcv1.pdf}{Tady najdete zadání.}
+	\end{note}
+
+\end{document}
