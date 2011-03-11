@@ -48,10 +48,13 @@
 
 \newcommand{\inte}[2]{\int\limits_0^1 #1\,\mathrm{d}#2}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\pa}{\partial}
 
 \title{Zápisky z cvičení NUM 2011}
 \author{Matěj Novotný}
 \date{\today}
+
+\setlength{\parindent}{0pt}
 
 \begin{document}
 
@@ -90,8 +93,10 @@
 	
 	\begin{theorem}
 		Nechť $g \in C^{(2)}$ na $\langle a,b \rangle;\ x \in (a,b);\ 0 < h < \min\{x-a, b-x\}$. Pak
-		$$ \frac{g(x+h) -g(x)}{h} = g'(x) + O(h)\quad \text{(dopředná diference)}$$
-		$$ \frac{g(x) - g(x-h)}{h} = g'(x) + O(h)\quad \text{(zpětná diference)}$$
+		\begin{align*}
+			\frac{g(x+h) -g(x)}{h} &= g'(x) + O(h)\quad \text{(dopředná diference)}\\
+			\frac{g(x) - g(x-h)}{h} &= g'(x) + O(h)\quad \text{(zpětná diference)}\\
+		\end{align*}
 	\end{theorem}
 	
 	\begin{proof}
@@ -144,5 +149,43 @@
 	\begin{note}
 		Vynechávám domácí úkol a nějaké povídání k němu. \href{http://geraldine.fjfi.cvut.cz/~oberhuber/data/vyuka/num/dcv1.pdf}{Tady najdete zadání.}
 	\end{note}
+	
+	\kindle{
+	\section{Numerické řešení ODR s počáteční \\podmínkou}
+	}{\section{Numerické řešení ODR s počáteční podmínkou}}
+	
+	Máme problém
+	\begin{align*}
+		y'(x) &= f(x,y(x)) \\
+		y(x_0) &= y_0
+	\end{align*}
 
+	Snažíme se nalézt vztah tvaru
+	$$ y(x_0 + h) \approx y(x_0) + \Delta y(x_0)$$
+	Člen $y(x_0)$ označíme $y_0$.
+	
+	Máme teoretickou možnost použít Taylorova rozvoje
+	$$ \Delta y_0 = y(x+h) - y(x_0) = hy'(x_0) + \frac{h^2}{2}y''(x_0) + \dotsb$$
+	$$ y'(x_0) = f(x_0,y_0)$$
+	$$ y''(x_0) = f'(x_0,y(x_0)) = \pa_x f(x_0,y_0) + \pa_y f(x_0,y_0)\cdot y'(x_0)=$$
+	$$ = \pa_x f(x_0,y_0) + \pa_y f(x_0,y_0)\cdot f(x_0,y_0)$$
+	$$ \Delta y_0 = h \cdot f(x_0,y_0) + \frac{h^2}{2}\left( \pa_x f(x_0,y_0) + \pa_y f(x_0,y_0)
+	\cdot f(x_0,y_0) \right)$$
+	Tato metoda má složité vzorce a špatnou stabilitu.
+	
+	\subsection{Runge-Kuttovy metody}
+	
+	Navrhujeme $\Delta y_0$ ve tvaru
+	$$\Delta y_0 = p_1 k_1 (h) + p_2 k_2 (h) + \dots + p_n k_n (h)$$
+	kde
+	\vspace{-1ex}
+	\begin{align*}
+		k_1 (h) &= h f(x_0,y_0) \\
+		k_2 (h) &= h f(x_0 + \alpha_2 h,y_0 + \beta_{21} k_1 (h)) \\
+		k_3 (h) &= h f(x_0 + \alpha_3 h,y_0 + \beta_{31} k_1 (h) + \beta_{32} k_2 (h)) \\
+		\vdots \\
+		k_n (h) &= h f(x_0 + \alpha_n h,y_0 + \beta_{n1} k_1 (h) + \dots + \beta_{n,n-1}
+		k_{n-1} (h))
+	\end{align*}
+	
 \end{document}
