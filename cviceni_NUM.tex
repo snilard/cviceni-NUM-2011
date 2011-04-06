@@ -40,7 +40,8 @@
 \usepackage{amsthm}
 \usepackage{latexsym}
 
-\usepackage{ulem}
+\usepackage{graphicx}
+
 
 \newtheorem{definition}{Definice}
 \newtheorem{theorem}{Věta}
@@ -237,6 +238,19 @@
 	$$ - \frac{1}{h} \left( p_{i + \frac{1}{2}} \frac{u_{i+1} - u_i}{h} - p_{i - \frac{1}{2}}
 	\frac{u_i - u_{i-1}}{h} \right)  + qu_i = f_i \text{ na } \omega_h$$
 	$$ u_0 = \gamma_1;\ u_m = \gamma_2 $$
-	$$ p_{i \pm \frac{1}{2}} = p\left(a + \left(i \pm \frac{1}{2}\right)h \right) \quad \rightarrow O(h^2)$$
+	$$ p_{i \pm \frac{1}{2}} = p\left(a + \left(i \pm \frac{1}{2}\right)h \right) \quad
+	\rightarrow O(h^2)$$
+	\begin{enumerate}
+		\item ~\\ \includegraphics{mexson1.pdf}
+			$$ (pu_{\overline{x}})_x = \frac{(pu_{\overline{x}})_{i+1} - (pu_{\overline{x}})_i}
+			{h} = \frac{1}{h^2} (p_{i+1}(u_{i+1} - u_i) - p_i(u_i - u_{i-1})) $$
+		\item ~\\ \includegraphics{mexson2.pdf}
+			$$ (pu')' \approx \frac{pu'|_{i + \frac{1}{2}} - pu'|_{i - \frac{1}{2}}}{h} =
+			\frac{1}{h^2}(p_{i + \frac{1}{2}}(y_{i+1} - y_i) - p_{i - \frac{1}{2}}(y_i - y_{i-1}))$$
+			\begin{align*}
+				p_{i + \frac{1}{2}} &= \frac{1}{2}(p_i + p_{i+1}) \\
+				p_{i - \frac{1}{2}} &= \frac{1}{2}(p_i + p_{i-1})
+			\end{align*}
+	\end{enumerate}
 	
 \end{document}
