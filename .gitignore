@@ -2,3 +2,7 @@
 *.log
 *.out
 *.synctex.gz
+*.asy
+cviceni_NUM_A4-*.pdf
+cviceni_NUM_kindle-*.pdf
+*.pre
